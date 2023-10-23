@@ -31,6 +31,29 @@ namespace rpg.Services.CharacterService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<List<CharacterDto>>> DeleteCharacter(int id)
+        {
+            var serviceResponse = new ServiceResponse<List<CharacterDto>>();
+            try{
+                var character = characters.First(c=> c.Id ==id);
+                if (character is null)
+                    throw new Exception($"Character with Id '{id}' not found.");
+                characters.Remove(character);
+                var dtoList = characters
+                    .Select(c=> mapper.Map<CharacterDto>(c))
+                    .ToList();
+                serviceResponse.Data= dtoList;
+
+            }catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
+            return serviceResponse;
+
+        }
+
         public async Task<ServiceResponse<List<CharacterDto>>> GetAllCharracters()
         {
             var dtoList = characters
@@ -55,6 +78,9 @@ namespace rpg.Services.CharacterService
             try
             {
                 var c = characters.FirstOrDefault(c=> c.Id ==character.Id);
+                if (c is null)
+                    throw new Exception($"Character with Id '{character.Id}' not found.");
+
                 c.Name = character.Name;
                 c.HitPoints = character.HitPoints;
                 c.Strength = character.Strength;
