@@ -1,0 +1,117 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace rpg.Migrations
+{
+    /// <inheritdoc />
+    public partial class AddSkill : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_CharacterFaction_Faction_FactionsId",
+                table: "CharacterFaction");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Faction",
+                table: "Faction");
+
+            migrationBuilder.RenameTable(
+                name: "Faction",
+                newName: "Factions");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Factions",
+                table: "Factions",
+                column: "Id");
+
+            migrationBuilder.CreateTable(
+                name: "Skill",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Damage = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skill", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CharacterSkill",
+                columns: table => new
+                {
+                    CharactersId = table.Column<int>(type: "int", nullable: false),
+                    SkillsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CharacterSkill", x => new { x.CharactersId, x.SkillsId });
+                    table.ForeignKey(
+                        name: "FK_CharacterSkill_Characters_CharactersId",
+                        column: x => x.CharactersId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CharacterSkill_Skill_SkillsId",
+                        column: x => x.SkillsId,
+                        principalTable: "Skill",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CharacterSkill_SkillsId",
+                table: "CharacterSkill",
+                column: "SkillsId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CharacterFaction_Factions_FactionsId",
+                table: "CharacterFaction",
+                column: "FactionsId",
+                principalTable: "Factions",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_CharacterFaction_Factions_FactionsId",
+                table: "CharacterFaction");
+
+            migrationBuilder.DropTable(
+                name: "CharacterSkill");
+
+            migrationBuilder.DropTable(
+                name: "Skill");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Factions",
+                table: "Factions");
+
+            migrationBuilder.RenameTable(
+                name: "Factions",
+                newName: "Faction");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Faction",
+                table: "Faction",
+                column: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CharacterFaction_Faction_FactionsId",
+                table: "CharacterFaction",
+                column: "FactionsId",
+                principalTable: "Faction",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+        }
+    }
+}
