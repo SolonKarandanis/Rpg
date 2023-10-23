@@ -14,6 +14,10 @@ namespace rpg.Models
 
         public int Intelligence { get; set; } = 10;
 
+        public int Fights { get; set; }
+        public int Victories { get; set; }
+        public int Defeats { get; set; }
+
         public RpgClass Class { get; set; } = RpgClass.Knight;
 
         public Backpack? Backpack { get; set; }
@@ -22,6 +26,8 @@ namespace rpg.Models
 
         public List<Faction>? Factions { get; set; }
 
-         public List<Skill>? Skills { get; set; }
+        public List<Skill>? Skills { get; set; }
+
+        public User? User { get; set; }
     }
 }
