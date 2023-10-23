@@ -26,7 +26,7 @@ namespace rpg.Services.CharacterService
             var character = mapper.Map<Character>(newCharacter);
             characters.Add(character);
             serviceResponse.Data = characters
-                .Select(c=> mapper.Map<CharacterDto>(characters))
+                .Select(c=> mapper.Map<CharacterDto>(c))
                 .ToList();
             return serviceResponse;
         }
@@ -34,7 +34,7 @@ namespace rpg.Services.CharacterService
         public async Task<ServiceResponse<List<CharacterDto>>> GetAllCharracters()
         {
             var dtoList = characters
-                .Select(c=> mapper.Map<CharacterDto>(characters))
+                .Select(c=> mapper.Map<CharacterDto>(c))
                 .ToList();
             var serviceResponse = new ServiceResponse<List<CharacterDto>>(){Data= dtoList};
             return serviceResponse;
