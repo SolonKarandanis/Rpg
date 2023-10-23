@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace rpg.Services.CharacterService
 {
@@ -12,25 +13,38 @@ namespace rpg.Services.CharacterService
             new Character(),
             new Character{ Id=1,Name="Sam"}
         };
+        private readonly IMapper mapper;
 
-        public async Task<ServiceResponse<List<Character>>> AddCharacter(Character newCharacter)
+        public CharacterService(IMapper mapper)
         {
-            var serviceResponse = new ServiceResponse<List<Character>>();
-            characters.Add(newCharacter);
-            serviceResponse.Data = characters;
+            this.mapper = mapper;
+        }
+
+        public async Task<ServiceResponse<List<CharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
+        {
+            var serviceResponse = new ServiceResponse<List<CharacterDto>>();
+            var character = mapper.Map<Character>(newCharacter);
+            characters.Add(character);
+            serviceResponse.Data = characters
+                .Select(c=> mapper.Map<CharacterDto>(characters))
+                .ToList();
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Character>>> GetAllCharracters()
+        public async Task<ServiceResponse<List<CharacterDto>>> GetAllCharracters()
         {
-            var serviceResponse = new ServiceResponse<List<Character>>(){Data= characters};
+            var dtoList = characters
+                .Select(c=> mapper.Map<CharacterDto>(characters))
+                .ToList();
+            var serviceResponse = new ServiceResponse<List<CharacterDto>>(){Data= dtoList};
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<Character>> GetCharacterById(int id)
+        public async Task<ServiceResponse<CharacterDto>> GetCharacterById(int id)
         {
             var character = characters.FirstOrDefault(c=> c.Id ==id);
-            var serviceResponse = new ServiceResponse<Character>(){Data = character};
+            var dto = mapper.Map<CharacterDto>(character);
+            var serviceResponse = new ServiceResponse<CharacterDto>(){Data = dto};
             return serviceResponse;
         }
     }
