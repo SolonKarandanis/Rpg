@@ -17,5 +17,7 @@ namespace rpg.Models
         public RpgClass Class { get; set; } = RpgClass.Knight;
 
         public Backpack Backpack { get; set; }
+
+        public List<Weapon> Weapons { get; set; }
     }
 }
