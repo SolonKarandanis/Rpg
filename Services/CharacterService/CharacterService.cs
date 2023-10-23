@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using rpg.Data;
 
 namespace rpg.Services.CharacterService
 {
@@ -14,9 +15,11 @@ namespace rpg.Services.CharacterService
             new Character{ Id=1,Name="Sam"}
         };
         private readonly IMapper mapper;
+        private readonly DataContext context;
 
-        public CharacterService(IMapper mapper)
+        public CharacterService(IMapper mapper, DataContext context)
         {
+            this.context = context;
             this.mapper = mapper;
         }
 
@@ -56,7 +59,8 @@ namespace rpg.Services.CharacterService
 
         public async Task<ServiceResponse<List<CharacterDto>>> GetAllCharracters()
         {
-            var dtoList = characters
+            var dbCharacters = await context.Characters.ToListAsync();
+            var dtoList = dbCharacters
                 .Select(c=> mapper.Map<CharacterDto>(c))
                 .ToList();
             var serviceResponse = new ServiceResponse<List<CharacterDto>>(){Data= dtoList};
