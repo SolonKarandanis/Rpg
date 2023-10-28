@@ -5,8 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
-using rpg.Data.Repositories.Users;
-using rpg.Services.Character.Auth;
+
 
 namespace rpg.Services.Auth
 {
