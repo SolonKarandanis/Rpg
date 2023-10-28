@@ -23,27 +23,27 @@ namespace rpg.Services.CharacterService
             this.mapper = mapper;
         }
 
-        public async Task<ServiceResponse<List<CharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
+        public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
-            var serviceResponse = new ServiceResponse<List<CharacterDto>>();
+            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
             var character = mapper.Map<Character>(newCharacter);
             characters.Add(character);
             serviceResponse.Data = characters
-                .Select(c=> mapper.Map<CharacterDto>(c))
+                .Select(c=> mapper.Map<GetCharacterDto>(c))
                 .ToList();
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<CharacterDto>>> DeleteCharacter(int id)
+        public async Task<ServiceResponse<List<GetCharacterDto>>> DeleteCharacter(int id)
         {
-            var serviceResponse = new ServiceResponse<List<CharacterDto>>();
+            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
             try{
                 var character = characters.First(c=> c.Id ==id);
                 if (character is null)
                     throw new Exception($"Character with Id '{id}' not found.");
                 characters.Remove(character);
                 var dtoList = characters
-                    .Select(c=> mapper.Map<CharacterDto>(c))
+                    .Select(c=> mapper.Map<GetCharacterDto>(c))
                     .ToList();
                 serviceResponse.Data= dtoList;
 
@@ -57,28 +57,28 @@ namespace rpg.Services.CharacterService
 
         }
 
-        public async Task<ServiceResponse<List<CharacterDto>>> GetAllCharracters()
+        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharracters()
         {
             var dbCharacters = await context.Characters.ToListAsync();
             var dtoList = dbCharacters
-                .Select(c=> mapper.Map<CharacterDto>(c))
+                .Select(c=> mapper.Map<GetCharacterDto>(c))
                 .ToList();
-            var serviceResponse = new ServiceResponse<List<CharacterDto>>(){Data= dtoList};
+            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>(){Data= dtoList};
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<CharacterDto>> GetCharacterById(int id)
+        public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
         {
             var character = characters.FirstOrDefault(c=> c.Id ==id);
-            var dto = mapper.Map<CharacterDto>(character);
-            var serviceResponse = new ServiceResponse<CharacterDto>(){Data = dto};
+            var dto = mapper.Map<GetCharacterDto>(character);
+            var serviceResponse = new ServiceResponse<GetCharacterDto>(){Data = dto};
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<CharacterDto>> UpdateCharacter(UpdateCharacterDto character)
+        public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto character)
         
         {
-            var serviceResponse = new ServiceResponse<CharacterDto>();
+            var serviceResponse = new ServiceResponse<GetCharacterDto>();
             try
             {
                 var c = characters.FirstOrDefault(c=> c.Id ==character.Id);
@@ -91,7 +91,7 @@ namespace rpg.Services.CharacterService
                 c.Defense = character.Defense;
                 c.Intelligence = character.Intelligence;
                 c.Class = character.Class;
-                var dto = mapper.Map<CharacterDto>(c);
+                var dto = mapper.Map<GetCharacterDto>(c);
                 serviceResponse.Data = dto;
             
             

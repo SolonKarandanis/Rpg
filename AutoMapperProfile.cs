@@ -10,7 +10,7 @@ namespace rpg
     {
         public AutoMapperProfile()
         {
-            CreateMap<Character,CharacterDto>();
+            CreateMap<Character,GetCharacterDto>();
             CreateMap<AddCharacterDto,Character>();
         }
     }

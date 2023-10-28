@@ -1,6 +1,10 @@
 global using rpg.Models;
 global using rpg.Services.CharacterService;
 global using rpg.Dtos.Character;
+global using rpg.Dtos.Skill;
+global using rpg.Dtos.Weapon;
+global using rpg.Dtos.Backpack;
+global using rpg.Dtos.Faction;
 global using Microsoft.EntityFrameworkCore;
 using rpg;
 using rpg.Data;
