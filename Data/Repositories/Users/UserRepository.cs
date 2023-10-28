@@ -20,11 +20,38 @@ namespace rpg.Data.Repositories.Users
             return await context.SaveChangesAsync();
         }
 
-        public async Task<User> FindUserByUsername(string username)
+        public async Task<int> DeleteUser(User user)
+        {
+            context.Users.Remove(user);
+            return await context.SaveChangesAsync();
+        }
+
+        public async Task<List<User>> FindAll()
+        {
+           return await context.Users.ToListAsync();
+        }
+
+        public async Task<User> FindById(int id,bool fetchCharacters)
+        {
+            var userCtx= context.Users;
+            if(fetchCharacters){
+                userCtx.Include(usr=>usr.Characters);
+            }
+
+            return await userCtx.FindAsync(id);
+        }
+
+        public async Task<User> FindByUsername(string username)
         {
             var user = await context.Users
                 .FirstOrDefaultAsync(u => u.Username.ToLower().Equals(username.ToLower()));
             return user;
+        }
+
+        public async Task<int> UpdateUser(User user)
+        {
+            context.Update(user);
+            return await context.SaveChangesAsync();
         }
 
         public async Task<bool> UserExists(string username)

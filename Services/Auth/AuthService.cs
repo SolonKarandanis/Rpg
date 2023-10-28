@@ -24,7 +24,7 @@ namespace rpg.Services.Auth
         public async Task<ServiceResponse<string>> Login(string username, string password)
         {
             var response = new ServiceResponse<string>();
-            var user = await userRepo.FindUserByUsername(username);
+            var user = await userRepo.FindByUsername(username);
             if (user is null)
             {
                 response.Success = false;
@@ -42,19 +42,24 @@ namespace rpg.Services.Auth
             return response;
         }
 
-        public async Task<ServiceResponse<int>> Register(User user, string password)
+        public async Task<ServiceResponse<int>> Register(UserRegisterDto userDto)
         {
             var response = new ServiceResponse<int>();
-            if (await userRepo.UserExists(user.Username))
+            if (await userRepo.UserExists(userDto.Username))
             {
                 response.Success = false;
                 response.Message = "User already exists.";
                 return response;
             }
-            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+            CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            var user = new User(){
+                Username = userDto.Username,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Email = userDto.Email,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt};
 
             await userRepo.CreateUser(user);
             response.Data = user.Id;
