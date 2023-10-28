@@ -5,6 +5,7 @@ global using rpg.Dtos.Skill;
 global using rpg.Dtos.Weapon;
 global using rpg.Dtos.Backpack;
 global using rpg.Dtos.Faction;
+global using rpg.Dtos.User;
 global using Microsoft.EntityFrameworkCore;
 using rpg;
 using rpg.Data;
