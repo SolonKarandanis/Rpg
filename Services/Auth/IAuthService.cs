@@ -9,6 +9,5 @@ namespace rpg.Services.Auth
     {
         Task<ServiceResponse<int>> Register(UserRegisterDto userDto);
         Task<ServiceResponse<string>> Login(string username, string password);
-        Task<bool> UserExists(string username);
     }
 }

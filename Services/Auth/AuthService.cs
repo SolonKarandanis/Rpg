@@ -65,10 +65,6 @@ namespace rpg.Services.Auth
             return response;
         }
 
-        public async Task<bool> UserExists(string username)
-        {
-            return await userRepo.UserExists(username);
-        }
 
         private void CreatePasswordHash(
             string password, out byte[] passwordHash, out byte[] passwordSalt)
