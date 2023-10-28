@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
-namespace rpg.Dtos.Character
+namespace rpg.Dtos.Characters
 {
-    public class GetCharacterDto
+    public class GetCharacterListDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = "Frodo";
@@ -18,10 +17,6 @@ namespace rpg.Dtos.Character
         public int Fights { get; set; }
         public int Victories { get; set; }
         public int Defeats { get; set; }
-        public GetBackpackDto? Backpack { get; set; }
-        public List<GetWeaponDto>? Weapons { get; set; }
-        public List<GetFactionDto>? Factions { get; set; }
-        public List<GetSkillDto>? Skills { get; set; }
         public int CharacterId { get; set; }
     }
 }

@@ -5,15 +5,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using rpg.Data;
 
-namespace rpg.Services.CharacterService
+
+namespace rpg.Services.Characters
 {
     public class CharacterService : ICharacterService
     {
 
-        private static List<Character> characters = new List<Character>{
-            new Character(),
-            new Character{ Id=1,Name="Sam"}
-        };
         private readonly IMapper mapper;
         private readonly DataContext context;
 
@@ -26,11 +23,7 @@ namespace rpg.Services.CharacterService
         public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            var character = mapper.Map<Character>(newCharacter);
-            characters.Add(character);
-            serviceResponse.Data = characters
-                .Select(c=> mapper.Map<GetCharacterDto>(c))
-                .ToList();
+           
             return serviceResponse;
         }
 
@@ -38,14 +31,7 @@ namespace rpg.Services.CharacterService
         {
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
             try{
-                var character = characters.First(c=> c.Id ==id);
-                if (character is null)
-                    throw new Exception($"Character with Id '{id}' not found.");
-                characters.Remove(character);
-                var dtoList = characters
-                    .Select(c=> mapper.Map<GetCharacterDto>(c))
-                    .ToList();
-                serviceResponse.Data= dtoList;
+               
 
             }catch (Exception ex)
             {
@@ -69,9 +55,8 @@ namespace rpg.Services.CharacterService
 
         public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
         {
-            var character = characters.FirstOrDefault(c=> c.Id ==id);
-            var dto = mapper.Map<GetCharacterDto>(character);
-            var serviceResponse = new ServiceResponse<GetCharacterDto>(){Data = dto};
+            
+            var serviceResponse = new ServiceResponse<GetCharacterDto>(){};
             return serviceResponse;
         }
 
@@ -81,18 +66,7 @@ namespace rpg.Services.CharacterService
             var serviceResponse = new ServiceResponse<GetCharacterDto>();
             try
             {
-                var c = characters.FirstOrDefault(c=> c.Id ==character.Id);
-                if (c is null)
-                    throw new Exception($"Character with Id '{character.Id}' not found.");
-
-                c.Name = character.Name;
-                c.HitPoints = character.HitPoints;
-                c.Strength = character.Strength;
-                c.Defense = character.Defense;
-                c.Intelligence = character.Intelligence;
-                c.Class = character.Class;
-                var dto = mapper.Map<GetCharacterDto>(c);
-                serviceResponse.Data = dto;
+                
             
             
             }

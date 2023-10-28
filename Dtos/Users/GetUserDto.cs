@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace rpg.Dtos.User
+namespace rpg.Dtos.Users
 {
     public class GetUserDto
     {

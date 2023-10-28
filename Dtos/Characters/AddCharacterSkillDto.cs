@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace rpg.Dtos.Weapon
+namespace rpg.Dtos.Characters
 {
-    public class AddWeaponDto
+    public class AddCharacterSkillDto
     {
-        public string Name { get; set; } = string.Empty;
-        public int Damage { get; set; }
         public int CharacterId { get; set; }
+        public int SkillId { get; set; }
     }
 }

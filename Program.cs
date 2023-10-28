@@ -1,11 +1,11 @@
 global using rpg.Models;
-global using rpg.Services.CharacterService;
-global using rpg.Dtos.Character;
-global using rpg.Dtos.Skill;
-global using rpg.Dtos.Weapon;
-global using rpg.Dtos.Backpack;
-global using rpg.Dtos.Faction;
-global using rpg.Dtos.User;
+global using rpg.Services.Characters;
+global using rpg.Dtos.Characters;
+global using rpg.Dtos.Skills;
+global using rpg.Dtos.Weapons;
+global using rpg.Dtos.Backpacks;
+global using rpg.Dtos.Factions;
+global using rpg.Dtos.Users;
 global using Microsoft.EntityFrameworkCore;
 using rpg;
 using rpg.Data;
