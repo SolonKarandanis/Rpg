@@ -20,5 +20,9 @@ namespace rpg.Services.Users
         Task<GetUserDto> UpdateUser(User user);
 
         Task<int> DeleteUser(User user);
+
+        GetUserDto ConvertToDto(User user);
+
+        User ConvertToEntity(GetUserDto dto);
     }
 }

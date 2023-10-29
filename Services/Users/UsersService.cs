@@ -3,49 +3,76 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace rpg.Services.Users
 {
     public class UsersService : IUsersService
     {
-        private IUserRepository userRepo;
-        public UsersService(IUserRepository userRepo)
+        private readonly IUserRepository userRepo;
+        private readonly IMapper mapper;
+        public UsersService(IUserRepository userRepo,IMapper mapper)
         {
             this.userRepo = userRepo;
+            this.mapper=mapper;
             
         }
-        public Task<GetUserDto> CreateUser(User user)
+
+        public GetUserDto ConvertToDto(User user)
+        {
+           return mapper.Map<GetUserDto>(user);
+        }
+
+        public User ConvertToEntity(GetUserDto dto)
+        {
+            return mapper.Map<User>(dto);
+        }
+
+        public async Task<GetUserDto> CreateUser(User user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> DeleteUser(User user)
+        public async Task<int> DeleteUser(User user)
         {
-            throw new NotImplementedException();
+            return await userRepo.DeleteUser(user);
         }
 
-        public Task<List<GetUserDto>> FindAll()
+        public async Task<List<GetUserDto>> FindAll()
         {
-            throw new NotImplementedException();
+            var users = await userRepo.FindAll();
+            var userDtos = users
+                .Select(ConvertToDto)
+                .ToList();
+            return userDtos;
         }
 
-        public Task<PageResponse<GetUserDto>> FindAll(Paging paging)
+        public async Task<PageResponse<GetUserDto>> FindAll(Paging paging)
         {
-            throw new NotImplementedException();
+            var searchResult = await userRepo.FindAll(paging);
+            var usersDto = searchResult.Content
+                .Select(ConvertToDto)
+                .ToList();
+            var result = new PageResponse<GetUserDto>(usersDto,searchResult.TotalNumber,searchResult.PageCount);
+            return result;
         }
 
-        public Task<GetUserDto> FindById(int id, bool fetchCharacters)
+        public async Task<GetUserDto> FindById(int id, bool fetchCharacters)
         {
-            throw new NotImplementedException();
+            var user = await userRepo.FindById(id,fetchCharacters);
+            var userDto = ConvertToDto(user);
+            return userDto;
         }
 
-        public Task<GetUserDto> UpdateUser(User user)
+        public async Task<GetUserDto> UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            var updatedUserId = await userRepo.UpdateUser(user);
+            var usr = await FindById(updatedUserId,true);
+            return usr;
         }
 
-        public Task<bool> UserExists(string username)
+        public async Task<bool> UserExists(string username)
         {
-            throw new NotImplementedException();
+            return await userRepo.UserExists(username);
         }
     }
 }

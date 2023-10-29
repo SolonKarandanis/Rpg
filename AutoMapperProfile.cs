@@ -13,6 +13,8 @@ namespace rpg
             CreateMap<Character,GetCharacterDto>();
             CreateMap<AddCharacterDto,Character>();
             CreateMap<UserRegisterDto,User>();
+            CreateMap<GetUserDto,User>();
+            CreateMap<User,GetUserDto>();
         }
     }
 }
