@@ -3,6 +3,8 @@ global using rpg.Services.Characters;
 global using rpg.Services.Auth;
 global using rpg.Services.Users;
 global using rpg.Data.Repositories.Users;
+global using rpg.Data.Repositories.Weapons;
+global using rpg.Data.Repositories.Characters;
 global using rpg.Dtos.Characters;
 global using rpg.Dtos.Skills;
 global using rpg.Dtos.Weapons;
@@ -14,6 +16,8 @@ global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 using rpg;
 using rpg.Data;
+
+
 
 
 
@@ -30,6 +34,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 // Repositories
 builder.Services.AddScoped<IUserRepository,UserRepository>();
+
+builder.Services.AddScoped<IWeaponRepository,WeaponRepository>();
 
 //Services
 builder.Services.AddScoped<ICharacterService,CharacterService>();
