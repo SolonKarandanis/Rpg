@@ -8,6 +8,7 @@ global using rpg.Dtos.Weapons;
 global using rpg.Dtos.Backpacks;
 global using rpg.Dtos.Factions;
 global using rpg.Dtos.Users;
+global using rpg.Dtos.Web;
 global using Microsoft.EntityFrameworkCore;
 using rpg;
 using rpg.Data;
