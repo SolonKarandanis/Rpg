@@ -28,6 +28,11 @@ namespace rpg.Services.Weapons
 
         public async Task<GetWeaponDto> AddWeapon(Weapon weapon)
         {
+            var characterId = weapon.CharacterId;
+            var type = weapon.Type;
+            if(await weaponRepo.ExistsByCharacterIdAndType(characterId,type)){
+                throw new ArgumentException("Weapon exists for Character");
+            }
             var weaponId = await weaponRepo.CreateWeapon(weapon);
             return await FindById(weaponId);
         }

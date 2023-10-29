@@ -26,6 +26,16 @@ namespace rpg.Data.Repositories.Weapons
             return await context.SaveChangesAsync();
         }
 
+        public async Task<bool> ExistsByCharacterIdAndType(int characterId, WeaponType type)
+        {
+            var exists =await context.Weapons
+                    .AnyAsync(w => w.CharacterId == characterId && w.Type == type);
+            if(exists){
+                return true;
+            }
+            return false;
+        }
+
         public async Task<List<Weapon>> FindByCharacterId(int characterId)
         {
             return await context.Weapons

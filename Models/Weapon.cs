@@ -10,6 +10,7 @@ namespace rpg.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public WeaponType Type { get; set; } = WeaponType.Sword;
         public int CharacterId { get; set; }
 
         [JsonIgnore]

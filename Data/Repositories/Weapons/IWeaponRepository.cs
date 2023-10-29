@@ -11,6 +11,8 @@ namespace rpg.Data.Repositories.Weapons
 
         Task<List<Weapon>> FindByCharacterId(int characterId);
 
+        Task<bool> ExistsByCharacterIdAndType(int characterId,WeaponType Type);
+
         Task<int> CreateWeapon(Weapon weapon);
 
         Task<int> DeleteWeapon(Weapon weapon);
