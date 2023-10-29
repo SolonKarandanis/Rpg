@@ -2,6 +2,7 @@ global using rpg.Models;
 global using rpg.Services.Characters;
 global using rpg.Services.Auth;
 global using rpg.Services.Users;
+global using rpg.Services.Weapons;
 global using rpg.Data.Repositories.Users;
 global using rpg.Data.Repositories.Weapons;
 global using rpg.Data.Repositories.Characters;
@@ -16,6 +17,7 @@ global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 using rpg;
 using rpg.Data;
+
 
 
 
@@ -41,6 +43,7 @@ builder.Services.AddScoped<IWeaponRepository,WeaponRepository>();
 builder.Services.AddScoped<ICharacterService,CharacterService>();
 builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddScoped<IUsersService,UsersService>();
+builder.Services.AddScoped<IWeaponService,WeaponService>();
 
 
 
