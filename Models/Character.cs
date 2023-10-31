@@ -5,6 +5,7 @@ namespace rpg.Models
 {
     public class Character
     {
+        [Key]
         public int Id { get; set; }
 
         [MaxLength(200)]

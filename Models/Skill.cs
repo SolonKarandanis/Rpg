@@ -9,6 +9,7 @@ namespace rpg.Models
 {
     public class Skill
     {
+        [Key]
         public int Id { get; set; }
         [MaxLength(200)]
         [Column(TypeName ="varchar(200)")]

@@ -10,6 +10,7 @@ namespace rpg.Models
 {
     public class Weapon
     {
+        [Key]
         public int Id { get; set; }
         [MaxLength(200)]
         [Column(TypeName ="varchar(200)")]
