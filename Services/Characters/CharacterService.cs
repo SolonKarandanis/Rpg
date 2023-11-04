@@ -56,10 +56,8 @@ namespace rpg.Services.Characters
 
         public async Task<int> DeleteCharacter(int id)
         {
-            var existingCharacter = await charRepo.FindById(id,false);
-            if(existingCharacter is null){
-                throw new Exception($"User with Id '{id}' not found.");
-            }
+            var existingCharacter = await FindById(id,false);
+            
             return await charRepo.DeleteCharacter(existingCharacter);
         }
 

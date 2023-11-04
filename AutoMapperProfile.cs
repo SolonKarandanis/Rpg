@@ -17,10 +17,14 @@ namespace rpg
             CreateMap<UserRegisterDto,User>();
             CreateMap<GetUserDto,User>();
             CreateMap<User,GetUserDto>();
-            
+
             CreateMap<AddWeaponDto,Weapon>();
             CreateMap<GetWeaponDto,Weapon>();
             CreateMap<Weapon,GetWeaponDto>();
+
+            CreateMap<Skill,GetSkillDto>();
+            CreateMap<GetSkillDto,Skill>();
+            CreateMap<SaveSkillDto,Skill>();
         }
     }
 }

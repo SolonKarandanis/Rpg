@@ -36,6 +36,16 @@ namespace rpg.Data.Repositories.Skills
             return await context.Skills.FindAsync(id);
         }
 
+        public async Task<bool> SkillExistsByName(string name)
+        {
+            if (await context.Skills
+                .AnyAsync(skill => skill.Name.ToLower() == name.ToLower()))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public async Task<int> UpdateSkill(Skill skill)
         {
             context.Skills.Update(skill);

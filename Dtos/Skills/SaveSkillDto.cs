@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace rpg.Dtos.Skills
 {
-    public class GetSkillDto
+    public class SaveSkillDto
     {
-        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public int Damage { get; set; }
     }

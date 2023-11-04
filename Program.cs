@@ -15,6 +15,7 @@ global using rpg.Dtos.Backpacks;
 global using rpg.Dtos.Factions;
 global using rpg.Dtos.Users;
 global using rpg.Dtos.Web;
+global using rpg.Dtos.Skills;
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 using rpg;

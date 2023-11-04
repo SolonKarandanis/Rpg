@@ -16,5 +16,7 @@ namespace rpg.Data.Repositories.Skills
         Task<int> UpdateSkill(Skill skill);
 
         Task<int> DeleteSkill(Skill skill);
+
+        Task<bool> SkillExistsByName(string name);
     }
 }
