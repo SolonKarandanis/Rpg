@@ -69,7 +69,17 @@ namespace rpg.Data.Repositories.Users
             return await context.SaveChangesAsync();
         }
 
-        public async Task<bool> UserExists(string username)
+        public async Task<bool> UserExists(int id)
+        {
+            if (await context.Users
+                .AnyAsync(u => u.Id == id))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> UserExistsByUsername(string username)
         {
             if (await context.Users
                 .AnyAsync(u => u.Username.ToLower() == username.ToLower()))

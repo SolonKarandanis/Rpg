@@ -15,7 +15,9 @@ namespace rpg.Data.Repositories.Users
 
         Task<PageResponse<User>> FindAll(Paging paging);
 
-        Task<bool> UserExists(string username);
+        Task<bool> UserExistsByUsername(string username);
+
+        Task<bool> UserExists(int id);
 
         Task<int> CreateUser(User user);
 

@@ -45,7 +45,7 @@ namespace rpg.Services.Auth
         public async Task<ServiceResponse<int>> Register(UserRegisterDto userDto)
         {
             var response = new ServiceResponse<int>();
-            if (await userRepo.UserExists(userDto.Username))
+            if (await userRepo.UserExistsByUsername(userDto.Username))
             {
                 response.Success = false;
                 response.Message = "User already exists.";

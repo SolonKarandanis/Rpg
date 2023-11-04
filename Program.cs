@@ -3,9 +3,11 @@ global using rpg.Services.Characters;
 global using rpg.Services.Auth;
 global using rpg.Services.Users;
 global using rpg.Services.Weapons;
+global using rpg.Services.Skills;
 global using rpg.Data.Repositories.Users;
 global using rpg.Data.Repositories.Weapons;
 global using rpg.Data.Repositories.Characters;
+global using rpg.Data.Repositories.Skills;
 global using rpg.Dtos.Characters;
 global using rpg.Dtos.Skills;
 global using rpg.Dtos.Weapons;
@@ -17,6 +19,8 @@ global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 using rpg;
 using rpg.Data;
+
+
 
 
 
@@ -36,14 +40,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 // Repositories
 builder.Services.AddScoped<IUserRepository,UserRepository>();
-
+builder.Services.AddScoped<ICharacterRepository,CharacterRepository>();
 builder.Services.AddScoped<IWeaponRepository,WeaponRepository>();
+builder.Services.AddScoped<ISkillRepository,SkillRepository>();
 
 //Services
 builder.Services.AddScoped<ICharacterService,CharacterService>();
 builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddScoped<IUsersService,UsersService>();
 builder.Services.AddScoped<IWeaponService,WeaponService>();
+builder.Services.AddScoped<ISkillService,SkillService>();
 
 
 

@@ -8,13 +8,25 @@ namespace rpg.Services.Characters
 {
     public interface ICharacterService
     {
-        Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharracters();
-        Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id);
 
-        Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter);
+        GetCharacterDto ConvertToDto(Character character);
 
-        Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto  character);
+        Character ConvertToEntity(GetCharacterDto dto);
 
-        Task<ServiceResponse<List<GetCharacterDto>>> DeleteCharacter(int id);
+        Task<bool> CharacterExists(string name);
+
+        Task<Character> CreateCharacter(Character character, int userId);
+
+        Task<Character> UpdateCharacter(Character character);
+
+        Task<int> DeleteCharacter(int id);
+
+        Task<PageResponse<Character>> FindAll(Paging paging);
+
+        Task<Character> FindById(int id, bool fetchRelations);
+
+        Task<List<Character>> FindByUserId(int userId);
+
+        Task<Character> AddCharacterSkill(AddCharacterSkillDto newCharacterSkill);
     }
 }

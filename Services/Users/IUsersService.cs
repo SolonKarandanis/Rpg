@@ -7,19 +7,19 @@ namespace rpg.Services.Users
 {
     public interface IUsersService
     {
-        Task<GetUserDto> FindById(int id, bool fetchCharacters);
+        Task<User> FindById(int id, bool fetchCharacters);
 
-        Task<List<GetUserDto>> FindAll();
+        Task<List<User>> FindAll();
 
-        Task<PageResponse<GetUserDto>> FindAll(Paging paging);
+        Task<PageResponse<User>> FindAll(Paging paging);
 
-        Task<bool> UserExists(string username);
+        Task<bool> UserExistsByUsername(string username);
 
-        Task<GetUserDto> CreateUser(User user);
+        Task<User> CreateUser(User user);
 
-        Task<GetUserDto> UpdateUser(User user);
+        Task<User> UpdateUser(User user);
 
-        Task<int> DeleteUser(User user);
+        Task<int> DeleteUser(int userId);
 
         GetUserDto ConvertToDto(User user);
 

@@ -51,6 +51,13 @@ namespace rpg.Data.Repositories.Characters
             return response;
         }
 
+        public async Task<List<Character>> FindByUserId(int userId)
+        {
+            return await context.Characters
+                .Where(character=> character.UserId == userId)
+                .ToListAsync();
+        }
+
         public async Task<Character> FindById(int id, bool fetchRelations)
         {
             var charCtx= context.Characters;

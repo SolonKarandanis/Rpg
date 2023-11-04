@@ -11,6 +11,8 @@ namespace rpg.Data.Repositories.Characters
 
         public Task<Character> FindById(int id,bool fetchRelations);
 
+        public Task<List<Character>> FindByUserId(int userId);
+
         public Task<bool> CharacterExists(string name);
 
         public Task<int> CreateCharacter(Character character);

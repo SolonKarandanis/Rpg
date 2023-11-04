@@ -11,10 +11,13 @@ namespace rpg
         public AutoMapperProfile()
         {
             CreateMap<Character,GetCharacterDto>();
+            CreateMap<GetCharacterDto,Character>();
             CreateMap<AddCharacterDto,Character>();
+
             CreateMap<UserRegisterDto,User>();
             CreateMap<GetUserDto,User>();
             CreateMap<User,GetUserDto>();
+            
             CreateMap<AddWeaponDto,Weapon>();
             CreateMap<GetWeaponDto,Weapon>();
             CreateMap<Weapon,GetWeaponDto>();

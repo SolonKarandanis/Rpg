@@ -5,79 +5,106 @@ using System.Threading.Tasks;
 using AutoMapper;
 using rpg.Data;
 
-
 namespace rpg.Services.Characters
 {
     public class CharacterService : ICharacterService
     {
 
         private readonly IMapper mapper;
-        private readonly DataContext context;
+        private readonly ICharacterRepository charRepo;
+        private readonly IUsersService usersService;
+        private readonly ISkillService skillsService;
 
-        public CharacterService(IMapper mapper, DataContext context)
+        public CharacterService(
+            IMapper mapper, 
+            ICharacterRepository charRepo,
+            IUsersService usersService,
+            ISkillService skillsService)
         {
-            this.context = context;
             this.mapper = mapper;
+            this.charRepo = charRepo;
+            this.usersService = usersService;
+            this.skillsService = skillsService;
         }
 
-        public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
+
+        public async Task<bool> CharacterExists(string name)
         {
-            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-           
-            return serviceResponse;
+            return await charRepo.CharacterExists(name);
         }
 
-        public async Task<ServiceResponse<List<GetCharacterDto>>> DeleteCharacter(int id)
+        public  GetCharacterDto ConvertToDto(Character character)
         {
-            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            try{
-               
+            return mapper.Map<GetCharacterDto>(character);
+        }
 
-            }catch (Exception ex)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
+        public Character ConvertToEntity(GetCharacterDto dto)
+        {
+            return mapper.Map<Character>(dto);
+        }
+
+        public async Task<Character> CreateCharacter(Character character, int userId)
+        {
+            var user = await usersService.FindById(userId,false);
+            character.UserId = user.Id;
+            character.User = user;
+
+            var characterId= await charRepo.CreateCharacter(character);
+            return await FindById(characterId,true);
+
+        }
+
+        public async Task<int> DeleteCharacter(int id)
+        {
+            var existingCharacter = await charRepo.FindById(id,false);
+            if(existingCharacter is null){
+                throw new Exception($"User with Id '{id}' not found.");
             }
-
-            return serviceResponse;
-
+            return await charRepo.DeleteCharacter(existingCharacter);
         }
 
-        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharracters()
+        public async Task<PageResponse<Character>> FindAll(Paging paging)
         {
-            var dbCharacters = await context.Characters.ToListAsync();
-            var dtoList = dbCharacters
-                .Select(c=> mapper.Map<GetCharacterDto>(c))
-                .ToList();
-            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>(){Data= dtoList};
-            return serviceResponse;
+            return await charRepo.FindAll(paging);
         }
 
-        public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
-        {
-            
-            var serviceResponse = new ServiceResponse<GetCharacterDto>(){};
-            return serviceResponse;
-        }
 
-        public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto character)
-        
+        public async Task<Character> FindById(int id, bool fetchRelations)
         {
-            var serviceResponse = new ServiceResponse<GetCharacterDto>();
-            try
-            {
-                
-            
-            
+            var character = await charRepo.FindById(id,fetchRelations);
+            if(character is null){
+                throw new Exception($"Character with Id '{id}' not found.");
             }
-            catch (Exception ex)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
-            }
-            return serviceResponse;
-            
+            return character;
         }
 
+        public async Task<List<Character>> FindByUserId(int userId)
+        {
+            return await charRepo.FindByUserId(userId);
+        }
+
+        public async Task<Character> UpdateCharacter(Character character)
+        {
+            var characterId = character.Id;
+            var existingCharacter = await FindById(characterId,false);
+            existingCharacter.Name = character.Name;
+            existingCharacter.HitPoints = character.HitPoints;
+            existingCharacter.Strength = character.Strength;
+            existingCharacter.Defense = character.Defense;
+            existingCharacter.Intelligence = character.Intelligence;
+            existingCharacter.Class = character.Class;
+
+            await charRepo.UpdateCharacter(existingCharacter);
+            return existingCharacter;
+        }
+
+        public async Task<Character> AddCharacterSkill(AddCharacterSkillDto newCharacterSkill)
+        {
+            var existingCharacter = await FindById(newCharacterSkill.CharacterId,true);
+            var selectedSkill = await skillsService.FindById(newCharacterSkill.SkillId);
+            existingCharacter!.Skills!.Add(selectedSkill);
+            await charRepo.UpdateCharacter(existingCharacter);
+            return existingCharacter;
+        }
     }
 }
