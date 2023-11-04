@@ -65,7 +65,7 @@ namespace rpg.Data.Repositories.Users
 
         public async Task<int> UpdateUser(User user)
         {
-            context.Update(user);
+            context.Users.Update(user);
             return await context.SaveChangesAsync();
         }
 
