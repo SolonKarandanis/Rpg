@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using rpg.Data;
 
+
 namespace rpg.Services.Characters
 {
     public class CharacterService : ICharacterService
@@ -33,9 +34,31 @@ namespace rpg.Services.Characters
             return await charRepo.CharacterExists(name);
         }
 
-        public  GetCharacterDto ConvertToDto(Character character)
+        public  GetCharacterDto ConvertToDto(Character character,bool convertRelationsShips)
         {
-            return mapper.Map<GetCharacterDto>(character);
+            var characterDto = mapper.Map<GetCharacterDto>(character);
+            if(convertRelationsShips && ListUtils.IsEmpty(character.Skills)){
+                var skillsDto = character.Skills
+                    .Select(skill => mapper.Map<GetSkillDto>(skill))
+                    .ToList();
+                characterDto.Skills = skillsDto;
+            }
+            if(convertRelationsShips && ListUtils.IsEmpty(character.Factions)){
+                var factionsDto = character.Factions
+                    .Select(faction => mapper.Map<GetFactionDto>(faction))
+                    .ToList();
+                characterDto.Factions = factionsDto;
+            }
+            if(convertRelationsShips && ListUtils.IsEmpty(character.Weapons)){
+                var weaponsDto = character.Weapons
+                    .Select(weapon => mapper.Map<GetWeaponDto>(weapon))
+                    .ToList();
+                characterDto.Weapons = weaponsDto;
+            }
+            if(convertRelationsShips && character.Backpack is not null){
+                characterDto.Backpack = mapper.Map<GetBackpackDto>(character.Backpack);
+            }
+            return characterDto;
         }
 
         public Character ConvertToEntity(GetCharacterDto dto)
@@ -43,13 +66,20 @@ namespace rpg.Services.Characters
             return mapper.Map<Character>(dto);
         }
 
-        public async Task<Character> CreateCharacter(Character character, int userId)
+        public async Task<Character> CreateCharacter(AddCharacterDto character, int userId)
         {
             var user = await usersService.FindById(userId,false);
-            character.UserId = user.Id;
-            character.User = user;
-
-            var characterId= await charRepo.CreateCharacter(character);
+            var characterModel = new Character(){
+                Name=character.Name,
+                HitPoints=character.HitPoints,
+                Strength=character.Strength,
+                Defense=character.Defense,
+                Intelligence=character.Intelligence,
+                Class=character.Class,
+                User=user,
+                UserId=user.Id
+            };
+            var characterId= await charRepo.CreateCharacter(characterModel);
             return await FindById(characterId,true);
 
         }
@@ -81,7 +111,7 @@ namespace rpg.Services.Characters
             return await charRepo.FindByUserId(userId);
         }
 
-        public async Task<Character> UpdateCharacter(Character character)
+        public async Task<Character> UpdateCharacter(UpdateCharacterDto character)
         {
             var characterId = character.Id;
             var existingCharacter = await FindById(characterId,false);

@@ -18,6 +18,7 @@ global using rpg.Dtos.Web;
 global using rpg.Dtos.Skills;
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
+global using Rpg.Utils;
 using rpg;
 using rpg.Data;
 

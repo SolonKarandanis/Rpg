@@ -52,10 +52,7 @@ namespace rpg.Services.Users
         public async Task<PageResponse<User>> FindAll(Paging paging)
         {
             var searchResult = await userRepo.FindAll(paging);
-            // var usersDto = searchResult.Content
-            //     .Select(ConvertToDto)
-            //     .ToList();
-            // var result = new PageResponse<GetUserDto>(usersDto,searchResult.TotalNumber,searchResult.PageCount);
+            
             return searchResult;
         }
 

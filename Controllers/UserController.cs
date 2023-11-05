@@ -11,7 +11,7 @@ namespace rpg.Controllers
     public class UserController : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<PageResponse<GetUserDto>>> FindUsers(
+        public async Task<PageResponse<GetUserDto>> FindUsers(
             [FromQuery] int page,
             [FromQuery] int size,
             [FromQuery] string? sortField,

@@ -9,15 +9,15 @@ namespace rpg.Services.Characters
     public interface ICharacterService
     {
 
-        GetCharacterDto ConvertToDto(Character character);
+        GetCharacterDto ConvertToDto(Character character, bool convertRelationsShips);
 
         Character ConvertToEntity(GetCharacterDto dto);
 
         Task<bool> CharacterExists(string name);
 
-        Task<Character> CreateCharacter(Character character, int userId);
+        Task<Character> CreateCharacter(AddCharacterDto character, int userId);
 
-        Task<Character> UpdateCharacter(Character character);
+        Task<Character> UpdateCharacter(UpdateCharacterDto character);
 
         Task<int> DeleteCharacter(int id);
 

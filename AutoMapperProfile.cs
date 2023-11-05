@@ -25,6 +25,12 @@ namespace rpg
             CreateMap<Skill,GetSkillDto>();
             CreateMap<GetSkillDto,Skill>();
             CreateMap<SaveSkillDto,Skill>();
+
+            CreateMap<Faction,GetFactionDto>();
+
+            CreateMap<Weapon,GetWeaponDto>();
+
+            CreateMap<Backpack,GetBackpackDto>();
         }
     }
 }
