@@ -79,7 +79,7 @@ namespace rpg.Services.Characters
                 User=user,
                 UserId=user.Id
             };
-            var characterId= await charRepo.CreateCharacter(characterModel);
+            var characterId= await charRepo.Create(characterModel);
             return await FindById(characterId,true);
 
         }
@@ -88,7 +88,7 @@ namespace rpg.Services.Characters
         {
             var existingCharacter = await FindById(id,false);
             
-            return await charRepo.DeleteCharacter(existingCharacter);
+            return await charRepo.Delete(existingCharacter);
         }
 
         public async Task<PageResponse<Character>> FindAll(Paging paging)
@@ -122,7 +122,7 @@ namespace rpg.Services.Characters
             existingCharacter.Intelligence = character.Intelligence;
             existingCharacter.Class = character.Class;
 
-            await charRepo.UpdateCharacter(existingCharacter);
+            await charRepo.Update(existingCharacter);
             return existingCharacter;
         }
 
@@ -131,7 +131,7 @@ namespace rpg.Services.Characters
             var existingCharacter = await FindById(newCharacterSkill.CharacterId,true);
             var selectedSkill = await skillsService.FindById(newCharacterSkill.SkillId);
             existingCharacter!.Skills!.Add(selectedSkill);
-            await charRepo.UpdateCharacter(existingCharacter);
+            await charRepo.Update(existingCharacter);
             return existingCharacter;
         }
     }

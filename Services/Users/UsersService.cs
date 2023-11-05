@@ -38,15 +38,12 @@ namespace rpg.Services.Users
             if(existingUser is null){
                 throw new Exception("User does not exist");
             }
-            return await userRepo.DeleteUser(existingUser);
+            return await userRepo.Delete(existingUser);
         }
 
-        public async Task<List<User>> FindAll()
+        public async Task<IEnumerable<User>> FindAll()
         {
             return await userRepo.FindAll();
-            // var userDtos = users
-            //     .Select(ConvertToDto)
-            //     .ToList();
         }
 
         public async Task<PageResponse<User>> FindAll(Paging paging)
@@ -59,13 +56,12 @@ namespace rpg.Services.Users
         public async Task<User> FindById(int id, bool fetchCharacters)
         {
             var user = await userRepo.FindById(id,fetchCharacters);
-            // var userDto = ConvertToDto(user);
             return user;
         }
 
         public async Task<User> UpdateUser(User user)
         {
-            var updatedUserId = await userRepo.UpdateUser(user);
+            var updatedUserId = await userRepo.Update(user);
             var usr = await FindById(updatedUserId,true);
             return usr;
         }

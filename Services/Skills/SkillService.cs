@@ -22,7 +22,7 @@ namespace rpg.Services.Skills
             if(exists is not null){
                 throw new Exception($"Skill with Name '{skill.Name}' already exists.");
             }
-            var skillId= await skillRepo.CreateSkill(skill);
+            var skillId= await skillRepo.Create(skill);
             return await FindById(skillId);
         }
 
@@ -30,10 +30,10 @@ namespace rpg.Services.Skills
         {
             var existingSkill = await FindById(id);
             
-            return await skillRepo.DeleteSkill(existingSkill);
+            return await skillRepo.Delete(existingSkill);
         }
 
-        public async Task<List<Skill>> FindAll()
+        public async Task<IEnumerable<Skill>> FindAll()
         {
             return await skillRepo.FindAll();
         }
@@ -60,7 +60,7 @@ namespace rpg.Services.Skills
             existingSkill.Name = skill.Name;
             existingSkill.Damage = skill.Damage;
 
-            await skillRepo.UpdateSkill(existingSkill);
+            await skillRepo.Update(existingSkill);
             return existingSkill;
         }
     }

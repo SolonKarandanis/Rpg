@@ -61,7 +61,7 @@ namespace rpg.Services.Auth
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt};
 
-            await userRepo.CreateUser(user);
+            await userRepo.Create(user);
             response.Data = user.Id;
             return response;
         }

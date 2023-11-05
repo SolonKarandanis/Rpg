@@ -33,7 +33,7 @@ namespace rpg.Services.Weapons
             if(await weaponRepo.ExistsByCharacterIdAndType(characterId,type)){
                 throw new ArgumentException("Weapon exists for Character");
             }
-            var weaponId = await weaponRepo.CreateWeapon(weapon);
+            var weaponId = await weaponRepo.Create(weapon);
             return await FindById(weaponId);
         }
 
@@ -41,7 +41,7 @@ namespace rpg.Services.Weapons
         public async Task<List<GetWeaponDto>> DeleteWeapon(Weapon weapon)
         {
             var characterId = weapon.CharacterId;
-            await weaponRepo.DeleteWeapon(weapon);
+            await weaponRepo.Delete(weapon);
             return await FindByCharacterId(characterId);
         }
 

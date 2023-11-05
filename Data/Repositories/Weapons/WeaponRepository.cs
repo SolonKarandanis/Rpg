@@ -2,28 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Rpg.Data.Repositories;
 
 namespace rpg.Data.Repositories.Weapons
 {
-    public class WeaponRepository : IWeaponRepository
+    public class WeaponRepository :Repository<Weapon>, IWeaponRepository
     {
 
         private readonly DataContext context;
 
-        public WeaponRepository(DataContext context)
+        public WeaponRepository(DataContext context):base(context)
         {
             this.context = context;
-        }
-        public async Task<int> CreateWeapon(Weapon weapon)
-        {
-            context.Weapons.Add(weapon);
-            return await context.SaveChangesAsync();
-        }
-
-        public async Task<int> DeleteWeapon(Weapon weapon)
-        {
-            context.Weapons.Remove(weapon);
-            return await context.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsByCharacterIdAndType(int characterId, WeaponType type)
@@ -43,9 +33,5 @@ namespace rpg.Data.Repositories.Weapons
                 .ToListAsync();
         }
 
-        public async Task<Weapon> FindById(int id)
-        {
-           return await context.Weapons.FindAsync(id);
-        }
     }
 }

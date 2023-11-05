@@ -11,7 +11,7 @@ namespace rpg.Services.Skills
 
         Task<int> DeleteSkill(int id);
 
-        Task<List<Skill>> FindAll();
+        Task<IEnumerable<Skill>> FindAll();
 
         Task<Skill> FindById(int id);
 

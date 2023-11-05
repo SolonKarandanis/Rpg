@@ -9,7 +9,7 @@ namespace rpg.Services.Users
     {
         Task<User> FindById(int id, bool fetchCharacters);
 
-        Task<List<User>> FindAll();
+        Task<IEnumerable<User>> FindAll();
 
         Task<PageResponse<User>> FindAll(Paging paging);
 
