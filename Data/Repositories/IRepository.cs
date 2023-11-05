@@ -9,7 +9,10 @@ namespace Rpg.Data.Repositories
     internal interface IRepository<T> where T : class
     {
         Task<IEnumerable<T>> FindAll();
-        Task<T> Find(Expression<Func<T, bool>> filter);
+
+        Task<PageResponse<T>> FindAll(Paging paging);
+        Task<T> Find(Expression<Func<T, bool>> filter,string? includeProperties = null);
+        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> filterl);
         Task<T> FindById(int id);
         Task<int> Create(T entity);
         Task<int> CreateRange(IEnumerable<T> entities);
