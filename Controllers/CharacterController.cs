@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace rpg.Controllers
 {
+    [ApiVersion("1.0")]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class CharacterController : ControllerBase
     {
 

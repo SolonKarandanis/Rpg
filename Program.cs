@@ -21,6 +21,7 @@ global using Microsoft.EntityFrameworkCore;
 global using Rpg.Utils;
 using rpg;
 using rpg.Data;
+using Microsoft.AspNetCore.Mvc;
 
 
 
@@ -40,6 +41,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+builder.Services.AddApiVersioning(config =>
+{
+    config.DefaultApiVersion = new ApiVersion(1, 0);
+    config.AssumeDefaultVersionWhenUnspecified = true;
+    config.ReportApiVersions = true;
+});
 // Repositories
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<ICharacterRepository,CharacterRepository>();
