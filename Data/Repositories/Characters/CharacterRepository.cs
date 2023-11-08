@@ -29,6 +29,7 @@ namespace rpg.Data.Repositories.Characters
         {
             return await context.Characters
                 .Where(character=> character.UserId == userId)
+                .AsNoTracking()
                 .ToListAsync();
         }
 

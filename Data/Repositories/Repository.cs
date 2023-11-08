@@ -25,6 +25,9 @@ namespace Rpg.Data.Repositories
 
         public async Task<int> CreateRange(IEnumerable<T> entities)
         {
+            // foreach(var entity in entities.Chunk(10)){
+
+            // }
             dbSet.AddRange(entities);
             return await db.SaveChangesAsync();
         }
@@ -54,14 +57,14 @@ namespace Rpg.Data.Repositories
                     query = query.Include(includeProp);
                 }
             }
-            return await query.FirstOrDefaultAsync();
+            return await query.AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> filter)
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
-            return await query.ToListAsync();
+            return await query.AsNoTracking().ToListAsync();
         }
 
         public async Task<T> FindById(int id)
@@ -71,17 +74,22 @@ namespace Rpg.Data.Repositories
 
         public async Task<IEnumerable<T>> FindAll()
         {
-           return await dbSet.ToListAsync();
+           return await dbSet
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<PageResponse<T>> FindAll(Paging paging)
         {
+            IQueryable<T> query = dbSet.AsNoTracking();
+            var totalNumber = await query.CountAsync();
+
             var page = paging.Page -1;
             var pageResults = paging.Size;
-            var totalNumber = dbSet.Count();
             var pageCount = (totalNumber + page)/ paging.Page;
             var skippedElements = page * pageResults;
-            var result = await dbSet
+
+            var result = await query
                 .Skip(skippedElements)
                 .Take(pageResults)
                 .ToListAsync();
