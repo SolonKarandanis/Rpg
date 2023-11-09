@@ -83,15 +83,11 @@ namespace Rpg.Data.Repositories
         {
             IQueryable<T> query = dbSet.AsNoTracking();
             var totalNumber = await query.CountAsync();
-
             var page = paging.Page -1;
-            var pageResults = paging.Size;
             var pageCount = (totalNumber + page)/ paging.Page;
-            var skippedElements = page * pageResults;
+            query = ApplyPaging(query,paging);
 
             var result = await query
-                .Skip(skippedElements)
-                .Take(pageResults)
                 .ToListAsync();
             var response = new PageResponse<T>(result,totalNumber,pageCount);
             return response;
@@ -107,6 +103,17 @@ namespace Rpg.Data.Repositories
         {
             dbSet.UpdateRange(entities);
             return await db.SaveChangesAsync();
+        }
+
+        protected IQueryable<T> ApplyPaging(IQueryable<T> efQuery, Paging paging)
+        {
+            var page = paging.Page -1;
+            var pageResults = paging.Size;
+            var skippedElements = page * pageResults;
+
+            return efQuery
+                .Skip(skippedElements)
+                .Take(pageResults);
         }
 
     }
