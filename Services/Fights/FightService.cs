@@ -8,9 +8,9 @@ namespace Rpg.Services.Fights
 {
     public class FightService : IFightService
     {
-        private readonly ICharacterService characterService;
+        private readonly ICharacterRepository characterService;
 
-        public FightService(CharacterService characterService)
+        public FightService(ICharacterRepository characterService)
         {
             this.characterService=characterService;
         }
