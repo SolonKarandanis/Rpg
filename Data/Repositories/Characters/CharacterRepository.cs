@@ -45,5 +45,14 @@ namespace rpg.Data.Repositories.Characters
 
             return await charCtx.FindAsync(id);
         }
+
+        public async Task<List<Character>> FindByIdsWithWeaponsAndSkills(List<int> characterIds)
+        {
+            return await context.Characters
+                .Include(c=>c.Weapons)
+                .Include(c=> c.Skills)
+                .Where(c=> characterIds.Contains(c.Id))
+                .ToListAsync();
+        }
     }
 }

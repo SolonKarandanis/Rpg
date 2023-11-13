@@ -134,5 +134,15 @@ namespace rpg.Services.Characters
             await charRepo.Update(existingCharacter);
             return existingCharacter;
         }
+
+        public async Task<List<Character>> FindByIdsWithWeaponsAndSkills(List<int> characterIds)
+        {
+            return await charRepo.FindByIdsWithWeaponsAndSkills(characterIds);
+        }
+
+        public async Task<int> UpdateRange(IEnumerable<Character> entities)
+        {
+            return await charRepo.UpdateRange(entities);
+        }
     }
 }

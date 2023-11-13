@@ -14,6 +14,8 @@ namespace rpg.Data.Repositories.Characters
         public Task<List<Character>> FindByUserId(int userId);
 
         public Task<bool> CharacterExists(string name);
+
+        public Task<List<Character>> FindByIdsWithWeaponsAndSkills(List<int> characterIds);
         
     }
 }

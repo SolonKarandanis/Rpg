@@ -28,5 +28,9 @@ namespace rpg.Services.Characters
         Task<List<Character>> FindByUserId(int userId);
 
         Task<Character> AddCharacterSkill(AddCharacterSkillDto newCharacterSkill);
+
+        public Task<List<Character>> FindByIdsWithWeaponsAndSkills(List<int> characterIds);
+
+        Task<int> UpdateRange(IEnumerable<Character> entities);
     }
 }
