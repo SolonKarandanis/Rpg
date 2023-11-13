@@ -142,8 +142,12 @@ namespace Rpg.Services.Fights
             if(ListUtils.IsEmpty(attacker.Weapons)){
                 throw new Exception("Attacker has no weapons");
             }
-
-            return 0;
+            int damage = attacker.Weapons[0].Damage + (new Random().Next(attacker.Strength));
+            damage -= new Random().Next(opponent.Defeats);
+            if(damage > 0){
+                opponent.HitPoints -= damage;
+            }
+            return damage;
         }
     }
 }

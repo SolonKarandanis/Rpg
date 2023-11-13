@@ -15,6 +15,8 @@ namespace rpg.Models
         [MaxLength(200)]
         [Column(TypeName ="varchar(200)")]
         public string Name { get; set; }
+
+        public int Damage { get; set; }
         public WeaponType Type { get; set; } = WeaponType.Sword;
         public int CharacterId { get; set; }
 
