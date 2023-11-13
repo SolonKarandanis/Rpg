@@ -8,16 +8,16 @@ namespace Rpg.Services.Fights
 {
     public class FightService : IFightService
     {
-        private readonly ICharacterRepository characterService;
+        private readonly ICharacterRepository characterRepo;
 
-        public FightService(ICharacterRepository characterService)
+        public FightService(ICharacterRepository characterRepo)
         {
-            this.characterService=characterService;
+            this.characterRepo=characterRepo;
         }
         public async Task<FightResultDto> Fight(FightRequestDto request)
         {
             var result = new FightResultDto();
-            var characters = await characterService.FindByIdsWithWeaponsAndSkills(request.CharacterIds);
+            var characters = await characterRepo.FindByIdsWithWeaponsAndSkills(request.CharacterIds);
             bool defeated = false;
 
             while (!defeated){
@@ -66,7 +66,7 @@ namespace Rpg.Services.Fights
                 c.HitPoints = 100;
             });
 
-            await characterService.UpdateRange(characters);
+            await characterRepo.UpdateRange(characters);
             return result;
         }
 
@@ -77,8 +77,8 @@ namespace Rpg.Services.Fights
 
         public async Task<AttackResultDto> SkillAttack(SkillAttackDto request)
         {
-            var attacker = await characterService.FindById(request.AttackerId,true);
-            var opponent = await characterService.FindById(request.OpponentId,false);
+            var attacker = await characterRepo.FindById(request.AttackerId,true);
+            var opponent = await characterRepo.FindById(request.OpponentId,false);
 
             if (attacker is null || opponent is null || attacker.Skills is null)
                     throw new Exception("Something fishy is going on here...");
@@ -92,7 +92,7 @@ namespace Rpg.Services.Fights
                 throw new Exception($"{opponent.Name} has been defeated!");
 
             List<Character> characters = new List<Character>{attacker,opponent};
-            await characterService.UpdateRange(characters);
+            await characterRepo.UpdateRange(characters);
 
             var result = new AttackResultDto(){
                 Attacker = attacker.Name,
@@ -106,8 +106,8 @@ namespace Rpg.Services.Fights
 
         public async Task<AttackResultDto> WeaponAttack(WeaponAttackDto request)
         {
-            var attacker = await characterService.FindById(request.AttackerId,true);
-            var opponent = await characterService.FindById(request.OpponentId,false);
+            var attacker = await characterRepo.FindById(request.AttackerId,true);
+            var opponent = await characterRepo.FindById(request.OpponentId,false);
 
             if (attacker is null || opponent is null || attacker.Skills is null)
                     throw new Exception("Something fishy is going on here...");
@@ -118,7 +118,7 @@ namespace Rpg.Services.Fights
                 throw new Exception($"{opponent.Name} has been defeated!");
 
             List<Character> characters = new List<Character>{attacker,opponent};
-            await characterService.UpdateRange(characters);
+            await characterRepo.UpdateRange(characters);
             var result = new AttackResultDto(){
                 Attacker = attacker.Name,
                 Opponent = opponent.Name,
