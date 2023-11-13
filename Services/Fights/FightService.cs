@@ -77,7 +77,31 @@ namespace Rpg.Services.Fights
 
         public async Task<AttackResultDto> SkillAttack(SkillAttackDto request)
         {
-            throw new NotImplementedException();
+            var attacker = await characterService.FindById(request.AttackerId,true);
+            var opponent = await characterService.FindById(request.OpponentId,false);
+
+            if (attacker is null || opponent is null || attacker.Skills is null)
+                    throw new Exception("Something fishy is going on here...");
+
+            var skill = attacker.Skills.FirstOrDefault(s => s.Id == request.SkillId);
+            if (skill is null)
+                throw new Exception($"{attacker.Name} doesn't know that skill!");
+
+            int damage = DoSkillAttack(attacker, opponent, skill);
+            if (opponent.HitPoints <= 0)
+                throw new Exception($"{opponent.Name} has been defeated!");
+
+            List<Character> characters = new List<Character>{attacker,opponent};
+            await characterService.UpdateRange(characters);
+
+            var result = new AttackResultDto(){
+                Attacker = attacker.Name,
+                Opponent = opponent.Name,
+                AttackerHP = attacker.HitPoints,
+                OpponentHP = opponent.HitPoints,
+                Damage = damage
+            };
+            return result;
         }
 
         public async Task<AttackResultDto> WeaponAttack(WeaponAttackDto request)
