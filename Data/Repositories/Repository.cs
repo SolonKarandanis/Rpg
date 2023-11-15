@@ -110,7 +110,8 @@ namespace Rpg.Data.Repositories
             var page = paging.Page -1;
             var pageResults = paging.Size;
             var skippedElements = page * pageResults;
-
+            var orderBy = paging.SortField;
+            // .OrderBy(x => x.Createddate) 
             return efQuery
                 .Skip(skippedElements)
                 .Take(pageResults);
