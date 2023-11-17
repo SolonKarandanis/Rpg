@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace rpg.Controllers
@@ -11,6 +13,15 @@ namespace rpg.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UserController : ControllerBase
     {
+        // private UserManager<ApplicationUser> _userManager;
+
+        private readonly IUsersService userService;
+
+        public UserController(IUsersService userService)
+        {
+            this.userService=userService;
+        }
+
         [HttpGet]
         public async Task<PageResponse<GetUserDto>> FindUsers(
             [FromQuery] int page,
@@ -20,6 +31,16 @@ namespace rpg.Controllers
         ){
             Paging paging = new Paging(page,size,sortField,sortOrder);
             return null;
+        }
+
+        [HttpGet("account")]
+        public async Task<ActionResult<GetUserDto>> GetLoggedInUser(){
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var id = Convert.ToInt32(currentUserID);
+            var user =await userService.FindById(id,false);
+            var result = userService.ConvertToDto(user);
+            return Ok(result);
         }
     }
 }
