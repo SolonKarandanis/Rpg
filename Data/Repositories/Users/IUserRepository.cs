@@ -8,7 +8,7 @@ namespace rpg.Data.Repositories.Users
 {
     public interface IUserRepository: IRepository<User>
     {
-        Task<User> FindByUsername(string username);
+        Task<User?> FindByUsername(string username);
 
         Task<User> FindById(int id, bool fetchCharacters);
 

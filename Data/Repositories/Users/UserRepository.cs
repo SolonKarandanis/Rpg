@@ -15,6 +15,10 @@ namespace rpg.Data.Repositories.Users
             this.context = context;
         }
 
+        private static Func<DataContext,string, Task<User?>> GetUserByUsername= 
+            EF.CompileAsyncQuery((DataContext context,string username) => 
+                context.Users.FirstOrDefault(u => u.Username.ToLower().Equals(username.ToLower())));
+
 
         public async Task<User> FindById(int id,bool fetchCharacters)
         {
@@ -26,11 +30,10 @@ namespace rpg.Data.Repositories.Users
             return await userCtx.FindAsync(id);
         }
 
-        public async Task<User> FindByUsername(string username)
+        public async Task<User?> FindByUsername(string username)
         {
-            var user = await context.Users
-                .FirstOrDefaultAsync(u => u.Username.ToLower().Equals(username.ToLower()));
-            return user;
+
+            return await GetUserByUsername(this.context, username);
         }
 
         public async Task<bool> UserExists(int id)
