@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using rpg.Identity;
+using Microsoft.Net.Http.Headers;
 
 
 
@@ -104,6 +105,23 @@ builder.Services.AddScoped<ISkillService,SkillService>();
 builder.Services.AddScoped<IFightService,FightService>();
 
 
+Func<HttpContext, Func<Task>, Task> RemoveCacheControlHeadersForNon200s(){
+    return async (context, next) =>{
+        context.Response.OnStarting(() => {
+            var headers = context.Response.GetTypedHeaders();
+            if (context.Response.StatusCode != StatusCodes.Status200OK &&
+                    headers.CacheControl?.NoCache == false)
+            {
+                headers.CacheControl = new CacheControlHeaderValue
+                {
+                    NoCache = true
+                };
+            }
+            return Task.FromResult(0);
+        });
+        await next();
+    };
+}
 
 var app = builder.Build();
 
@@ -125,5 +143,7 @@ app.UseApiVersioning();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// app.Use(RemoveCacheControlHeadersForNon200s());
 
 app.Run();

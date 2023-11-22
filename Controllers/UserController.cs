@@ -33,6 +33,7 @@ namespace rpg.Controllers
             return null;
         }
 
+        [ResponseCache(Duration = 60_000)]
         [HttpGet("{id}")]
         public async Task<ActionResult<GetUserDto>> FindUserById(int id){
             try{
