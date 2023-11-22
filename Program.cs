@@ -21,7 +21,7 @@ global using rpg.Dtos.Skills;
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 global using Rpg.Utils;
-global using Serilog;
+using Serilog;
 using rpg;
 using rpg.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +48,9 @@ IConfigurationRoot config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .AddEnvironmentVariables()
     .Build();
+
+// builder.Host.UseSerilog((context, configuration) =>
+//     configuration.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
 builder.Services.AddDbContextPool<DataContext>(options =>
@@ -76,13 +79,13 @@ builder.Services.AddAuthorization(options =>
         p.RequireClaim(IdentityData.AdminUserClaimName,"true"));
 });
 
-builder.Host.UseSerilog((context, configuration) =>
-    configuration.ReadFrom.Configuration(context.Configuration));
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddApiVersioning(config =>
 {
@@ -104,24 +107,28 @@ builder.Services.AddScoped<IWeaponService,WeaponService>();
 builder.Services.AddScoped<ISkillService,SkillService>();
 builder.Services.AddScoped<IFightService,FightService>();
 
+var logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration)
+            .CreateLogger();
 
-Func<HttpContext, Func<Task>, Task> RemoveCacheControlHeadersForNon200s(){
-    return async (context, next) =>{
-        context.Response.OnStarting(() => {
-            var headers = context.Response.GetTypedHeaders();
-            if (context.Response.StatusCode != StatusCodes.Status200OK &&
-                    headers.CacheControl?.NoCache == false)
-            {
-                headers.CacheControl = new CacheControlHeaderValue
-                {
-                    NoCache = true
-                };
-            }
-            return Task.FromResult(0);
-        });
-        await next();
-    };
-}
+builder.Host.UseSerilog(logger);
+// Func<HttpContext, Func<Task>, Task> RemoveCacheControlHeadersForNon200s(){
+//     return async (context, next) =>{
+//         context.Response.OnStarting(() => {
+//             var headers = context.Response.GetTypedHeaders();
+//             if (context.Response.StatusCode != StatusCodes.Status200OK &&
+//                     headers.CacheControl?.NoCache == false)
+//             {
+//                 headers.CacheControl = new CacheControlHeaderValue
+//                 {
+//                     NoCache = true
+//                 };
+//             }
+//             return Task.FromResult(0);
+//         });
+//         await next();
+//     };
+// }
 
 var app = builder.Build();
 

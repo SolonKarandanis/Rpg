@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace rpg.Controllers
 {
     [ApiVersion("1.0")]
@@ -16,10 +17,12 @@ namespace rpg.Controllers
         // private UserManager<ApplicationUser> _userManager;
 
         private readonly IUsersService userService;
+        private readonly ILogger<UserController> log;
 
-        public UserController(IUsersService userService)
+        public UserController(IUsersService userService,ILogger<UserController> log)
         {
             this.userService=userService;
+            this.log = log;
         }
 
         [HttpGet]
@@ -33,12 +36,12 @@ namespace rpg.Controllers
             return null;
         }
 
-        [ResponseCache(Duration = 60_000)]
+
         [HttpGet("{id}")]
         public async Task<ActionResult<GetUserDto>> FindUserById(int id){
             try{
                 var user = await userService.FindById(id,false);
-                Log.Debug("User found @{User}",user.Username);
+                log.LogDebug("User found @{User}",user.Username);
                 var result = userService.ConvertToDto(user);
                 return Ok(result);
             }
@@ -47,6 +50,7 @@ namespace rpg.Controllers
             }
         }
 
+        [ResponseCache(Duration = 60)]
         [HttpGet("account")]
         public async Task<ActionResult<GetUserDto>> GetLoggedInUser(){
             ClaimsPrincipal currentUser = this.User;
