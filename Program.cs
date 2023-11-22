@@ -36,6 +36,7 @@ using rpg.Identity;
 
 
 
+Environment.SetEnvironmentVariable("APP_BASE_DIRECTORY", AppContext.BaseDirectory);
 
 
 
