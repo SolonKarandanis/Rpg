@@ -21,6 +21,7 @@ global using rpg.Dtos.Skills;
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 global using Rpg.Utils;
+global using Serilog;
 using rpg;
 using rpg.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using rpg.Identity;
-using Serilog;
+
 
 
 

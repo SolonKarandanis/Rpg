@@ -33,6 +33,19 @@ namespace rpg.Controllers
             return null;
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetUserDto>> FindUserById(int id){
+            try{
+                var user = await userService.FindById(id,false);
+                Log.Debug("User found @{User}",user.Username);
+                var result = userService.ConvertToDto(user);
+                return Ok(result);
+            }
+            catch(Exception ex){
+                return NotFound();
+            }
+        }
+
         [HttpGet("account")]
         public async Task<ActionResult<GetUserDto>> GetLoggedInUser(){
             ClaimsPrincipal currentUser = this.User;
