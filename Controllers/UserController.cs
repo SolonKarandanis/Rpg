@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,10 +51,12 @@ namespace rpg.Controllers
             }
         }
 
-        [ResponseCache(Duration = 60)]
+        // [ResponseCache(Duration = 60)]
+        [Authorize]
         [HttpGet("account")]
         public async Task<ActionResult<GetUserDto>> GetLoggedInUser(){
             ClaimsPrincipal currentUser = this.User;
+            log.LogDebug("User found {@User}",currentUser);
             var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             var id = Convert.ToInt32(currentUserID);
             var user =await userService.FindById(id,false);
