@@ -63,8 +63,8 @@ builder.Services.AddAuthentication(x =>
     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(x =>{
     x.TokenValidationParameters = new TokenValidationParameters{
-        ValidIssuer = config["JwtSettings::Issuer"],
-        ValidAudience = config["JwtSettings::Audience"],
+        ValidIssuer = config["JwtSettings:Issuer"],
+        ValidAudience = config["JwtSettings:Audience"],
         ValidateIssuer= true,
         ValidateAudience= true,
         ValidateLifetime= true,
@@ -112,23 +112,23 @@ var logger = new LoggerConfiguration()
             .CreateLogger();
 
 builder.Host.UseSerilog(logger);
-// Func<HttpContext, Func<Task>, Task> RemoveCacheControlHeadersForNon200s(){
-//     return async (context, next) =>{
-//         context.Response.OnStarting(() => {
-//             var headers = context.Response.GetTypedHeaders();
-//             if (context.Response.StatusCode != StatusCodes.Status200OK &&
-//                     headers.CacheControl?.NoCache == false)
-//             {
-//                 headers.CacheControl = new CacheControlHeaderValue
-//                 {
-//                     NoCache = true
-//                 };
-//             }
-//             return Task.FromResult(0);
-//         });
-//         await next();
-//     };
-// }
+Func<HttpContext, Func<Task>, Task> RemoveCacheControlHeadersForNon200s(){
+    return async (context, next) =>{
+        context.Response.OnStarting(() => {
+            var headers = context.Response.GetTypedHeaders();
+            if (context.Response.StatusCode != StatusCodes.Status200OK &&
+                    headers.CacheControl?.NoCache == false)
+            {
+                headers.CacheControl = new CacheControlHeaderValue
+                {
+                    NoCache = true
+                };
+            }
+            return Task.FromResult(0);
+        });
+        await next();
+    };
+}
 
 var app = builder.Build();
 
@@ -151,6 +151,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// app.Use(RemoveCacheControlHeadersForNon200s());
+app.Use(RemoveCacheControlHeadersForNon200s());
 
 app.Run();

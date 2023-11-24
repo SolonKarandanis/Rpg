@@ -56,8 +56,9 @@ namespace rpg.Controllers
         [HttpGet("account")]
         public async Task<ActionResult<GetUserDto>> GetLoggedInUser(){
             ClaimsPrincipal currentUser = this.User;
-            log.LogDebug("User found {@User}",currentUser);
             var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentUsername = currentUser.FindFirst(ClaimTypes.Name).Value;
+            log.LogDebug("User found  @{currentUsername}",currentUsername);
             var id = Convert.ToInt32(currentUserID);
             var user =await userService.FindById(id,false);
             var result = userService.ConvertToDto(user);

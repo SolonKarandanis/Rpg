@@ -95,7 +95,7 @@ namespace rpg.Services.Auth
                 new Claim(ClaimTypes.Name, user.Username)
             };
 
-            var appSettingsToken = configuration.GetSection("AppSettings:Token").Value;
+            var appSettingsToken = configuration.GetSection("JwtSettings:Key").Value;
             if (appSettingsToken is null)
                 throw new Exception("AppSettings Token is null!");
 
@@ -104,11 +104,16 @@ namespace rpg.Services.Auth
 
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
+            var audience = configuration.GetSection("JwtSettings:Audience").Value;
+            var issuer = configuration.GetSection("JwtSettings:Issuer").Value;
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
+                SigningCredentials = creds,
+                Audience=audience,
+                Issuer= issuer
             };
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();

@@ -23,7 +23,7 @@ namespace rpg.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDto request)
+        public async Task<ActionResult<ServiceResponse<int>>> Register([FromBody] UserRegisterDto request)
         {
             var response = await authService.Register(request);
             if(!response.Success)
@@ -34,7 +34,7 @@ namespace rpg.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<ServiceResponse<int>>> Login(UserLoginDto request)
+        public async Task<ActionResult<ServiceResponse<string>>> Login([FromBody] UserLoginDto request)
         {
             var response = await authService.Login(request.Username, request.Password);
             if(!response.Success)
