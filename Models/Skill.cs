@@ -15,6 +15,7 @@ namespace rpg.Models
         [Column(TypeName ="varchar(200)")]
         public string Name { get; set; } = string.Empty;
         public int Damage { get; set; }
+        public int CharacterId { get; set; }
         public List<Character>? Characters { get; set; }
     }
 }

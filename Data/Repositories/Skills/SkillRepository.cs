@@ -26,5 +26,12 @@ namespace rpg.Data.Repositories.Skills
             return false;
         }
 
+        public async Task<int> DeleteByCharacterId(int characterId)
+        {
+            return await context.Skills
+                .Where(w=> w.CharacterId == characterId)
+                .ExecuteDeleteAsync();
+        }
+
     }
 }

@@ -16,6 +16,13 @@ namespace rpg.Data.Repositories.Weapons
             this.context = context;
         }
 
+        public async Task<int> DeleteByCharacterId(int characterId)
+        {
+            return await context.Weapons
+                .Where(w=> w.CharacterId == characterId)
+                .ExecuteDeleteAsync();
+        }
+
         public async Task<bool> ExistsByCharacterIdAndType(int characterId, WeaponType type)
         {
             var exists =await context.Weapons

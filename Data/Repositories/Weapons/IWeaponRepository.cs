@@ -13,5 +13,7 @@ namespace rpg.Data.Repositories.Weapons
 
         Task<bool> ExistsByCharacterIdAndType(int characterId,WeaponType Type);
 
+        Task<int> DeleteByCharacterId(int characterId);
+
     }
 }
