@@ -30,14 +30,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using rpg.Identity;
 using Microsoft.Net.Http.Headers;
+using rpg.ErrorManagement.Configurations;
 
 
-
-
-
-
-
-Environment.SetEnvironmentVariable("APP_BASE_DIRECTORY", AppContext.BaseDirectory);
 
 
 
@@ -152,5 +147,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Use(RemoveCacheControlHeadersForNon200s());
+app.AddGlobalErrorHandler();
 
 app.Run();
