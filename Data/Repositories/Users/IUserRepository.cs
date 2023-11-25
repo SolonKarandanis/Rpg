@@ -10,7 +10,7 @@ namespace rpg.Data.Repositories.Users
     {
         Task<User?> FindByUsername(string username);
 
-        Task<User> FindById(int id, bool fetchCharacters);
+        Task<User?> FindById(int id, bool fetchCharacters);
 
 
         Task<bool> UserExistsByUsername(string username);

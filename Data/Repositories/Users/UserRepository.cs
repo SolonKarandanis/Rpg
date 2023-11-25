@@ -6,7 +6,7 @@ using Rpg.Data.Repositories;
 
 namespace rpg.Data.Repositories.Users
 {
-    public class UserRepository :Repository<User>, IUserRepository
+    public class UserRepository :Repository<User>, IUserRepository,IDisposable
     {
         private readonly DataContext context;
 
@@ -20,7 +20,7 @@ namespace rpg.Data.Repositories.Users
                 context.Users.FirstOrDefault(u => u.Username.ToLower().Equals(username.ToLower())));
 
 
-        public async Task<User> FindById(int id,bool fetchCharacters)
+        public async Task<User?> FindById(int id,bool fetchCharacters)
         {
             var userCtx= context.Users;
             if(fetchCharacters){
@@ -54,6 +54,12 @@ namespace rpg.Data.Repositories.Users
                 return true;
             }
             return false;
+        }
+
+        public async void Dispose()
+        {
+            await context.DisposeAsync();
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -6,7 +6,7 @@ using Rpg.Data.Repositories;
 
 namespace rpg.Data.Repositories.Skills
 {
-    public class SkillRepository :Repository<Skill>, ISkillRepository
+    public class SkillRepository :Repository<Skill>, ISkillRepository,IDisposable
     {
         private readonly DataContext context;
 
@@ -33,5 +33,10 @@ namespace rpg.Data.Repositories.Skills
                 .ExecuteDeleteAsync();
         }
 
+        public async void Dispose()
+        {
+            await context.DisposeAsync();
+            GC.SuppressFinalize(this);
+        }
     }
 }

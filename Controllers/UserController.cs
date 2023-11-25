@@ -27,7 +27,7 @@ namespace rpg.Controllers
         }
 
         [HttpGet]
-        public async Task<PageResponse<GetUserDto>> FindUsers(
+        public async Task<ActionResult<PageResponse<GetUserDto>>> FindUsers(
             [FromQuery] int page,
             [FromQuery] int size,
             [FromQuery] string? sortField,

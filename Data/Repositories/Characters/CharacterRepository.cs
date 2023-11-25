@@ -6,7 +6,7 @@ using Rpg.Data.Repositories;
 
 namespace rpg.Data.Repositories.Characters
 {
-    public class CharacterRepository :Repository<Character>, ICharacterRepository
+    public class CharacterRepository :Repository<Character>, ICharacterRepository,IDisposable
     {
          private readonly DataContext context;
 
@@ -53,6 +53,12 @@ namespace rpg.Data.Repositories.Characters
                 .Include(c=> c.Skills)
                 .Where(c=> characterIds.Contains(c.Id))
                 .ToListAsync();
+        }
+
+        public async void Dispose()
+        {
+            await context.DisposeAsync();
+            GC.SuppressFinalize(this);
         }
     }
 }

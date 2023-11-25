@@ -6,7 +6,7 @@ using Rpg.Data.Repositories;
 
 namespace rpg.Data.Repositories.Weapons
 {
-    public class WeaponRepository :Repository<Weapon>, IWeaponRepository
+    public class WeaponRepository :Repository<Weapon>, IWeaponRepository,IDisposable
     {
 
         private readonly DataContext context;
@@ -38,6 +38,12 @@ namespace rpg.Data.Repositories.Weapons
             return await context.Weapons
                 .Where(weapon => weapon.CharacterId == characterId)
                 .ToListAsync();
+        }
+
+        public async void Dispose()
+        {
+            await context.DisposeAsync();
+            GC.SuppressFinalize(this);
         }
 
     }
