@@ -44,7 +44,7 @@ namespace Rpg.Data.Repositories
             return await db.SaveChangesAsync();
         }
 
-        public async Task<T> Find(Expression<Func<T, bool>> filter,string? includeProperties = null)
+        public async Task<T?> Find(Expression<Func<T, bool>> filter,string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
@@ -67,7 +67,7 @@ namespace Rpg.Data.Repositories
             return await query.AsNoTracking().ToListAsync();
         }
 
-        public async Task<T> FindById(int id)
+        public async Task<T?> FindById(int id)
         {
            return await dbSet.FindAsync(id);
         }

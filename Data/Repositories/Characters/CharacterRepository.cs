@@ -33,7 +33,7 @@ namespace rpg.Data.Repositories.Characters
                 .ToListAsync();
         }
 
-        public async Task<Character> FindById(int id, bool fetchRelations)
+        public async Task<Character?> FindById(int id, bool fetchRelations)
         {
             var charCtx= context.Characters;
             if(fetchRelations){

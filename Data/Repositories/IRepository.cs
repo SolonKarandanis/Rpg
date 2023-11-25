@@ -11,9 +11,9 @@ namespace Rpg.Data.Repositories
         Task<IEnumerable<T>> FindAll();
 
         Task<PageResponse<T>> FindAll(Paging paging);
-        Task<T> Find(Expression<Func<T, bool>> filter,string? includeProperties = null);
+        Task<T?> Find(Expression<Func<T, bool>> filter,string? includeProperties = null);
         Task<IEnumerable<T>> Find(Expression<Func<T, bool>> filterl);
-        Task<T> FindById(int id);
+        Task<T?> FindById(int id);
         Task<int> Create(T entity);
         Task<int> CreateRange(IEnumerable<T> entities);
         Task<int> Update(T entity);

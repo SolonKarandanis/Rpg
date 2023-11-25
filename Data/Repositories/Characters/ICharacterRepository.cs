@@ -9,7 +9,7 @@ namespace rpg.Data.Repositories.Characters
     public interface ICharacterRepository : IRepository<Character>
     {
 
-        public Task<Character> FindById(int id,bool fetchRelations);
+        public Task<Character?> FindById(int id,bool fetchRelations);
 
         public Task<List<Character>> FindByUserId(int userId);
 
