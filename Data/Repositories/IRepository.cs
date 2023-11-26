@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Rpg.Data.Repositories
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class, IModelIdentifier
     {
         Task<IEnumerable<T>> FindAll();
 

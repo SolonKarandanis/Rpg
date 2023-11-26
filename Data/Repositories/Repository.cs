@@ -7,7 +7,7 @@ using rpg.Data;
 
 namespace Rpg.Data.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class, IModelIdentifier
     {
         private readonly DataContext db;
         internal DbSet<T> dbSet;
@@ -111,9 +111,9 @@ namespace Rpg.Data.Repositories
             var pageResults = paging.Size;
             var skippedElements = page * pageResults;
             var orderBy = paging.SortField;
-            // .OrderBy(x => x.Createddate) 
             return efQuery
                 .Skip(skippedElements)
+                .OrderBy(x => x.Id)
                 .Take(pageResults);
         }
 

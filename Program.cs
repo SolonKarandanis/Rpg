@@ -31,6 +31,7 @@ using System.Text;
 using rpg.Identity;
 using Microsoft.Net.Http.Headers;
 using rpg.ErrorManagement.Configurations;
+using Microsoft.AspNetCore.Identity;
 
 
 
@@ -68,6 +69,8 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
+// builder.Services.AddIdentity<User,IdentityRole>()
+//             .AddEntityFrameworkStores<DataContext>();
 builder.Services.AddAuthorization(options => 
 {
     options.AddPolicy(IdentityData.AdminUserPolicyName, p=> 

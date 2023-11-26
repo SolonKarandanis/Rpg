@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace rpg.Models
 {
-    public class Faction
+    public class Faction:IModelIdentifier
     {
         [Key]
         public int Id { get; set; }
         [MaxLength(200)]
         [Column(TypeName ="varchar(200)")]
-        public string Name { get; set; }
+        public string Name { get; set; }= string.Empty;
         public int CharacterId { get; set; }
         [JsonIgnore]
         public List<Character> Characters { get; set; }

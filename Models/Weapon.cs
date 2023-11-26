@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace rpg.Models
 {
-    public class Weapon
+    public class Weapon:IModelIdentifier
     {
         [Key]
         public int Id { get; set; }
         [MaxLength(200)]
         [Column(TypeName ="varchar(200)")]
-        public string Name { get; set; }
+        public string Name { get; set; }= string.Empty;
 
         public int Damage { get; set; }
         public WeaponType Type { get; set; } = WeaponType.Sword;

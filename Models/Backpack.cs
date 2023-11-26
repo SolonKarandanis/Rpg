@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace rpg.Models
 {
-    public class Backpack
+    public class Backpack:IModelIdentifier
     {
         [Key]
         public int Id { get; set; }
         [MaxLength(200)]
         [Column(TypeName ="varchar(200)")]
-        public string Description { get; set; }
+        public string Description { get; set; }= string.Empty;
         public int CharacterId { get; set; }
         [JsonIgnore]
         public Character Character { get; set; }

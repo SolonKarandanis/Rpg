@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace rpg.Models
 {
-    public class Character
+    public class Character:IModelIdentifier
     {
         [Key]
         public int Id { get; set; }

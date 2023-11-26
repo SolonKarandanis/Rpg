@@ -4,17 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace rpg.Models
 {
-    public class User
+    public class User:IModelIdentifier
     {
         [Key]
-        public int Id { get; set; }
+        public  int Id { get; set; }
         [MaxLength(200)]
         [Column(TypeName ="varchar(200)")]
         public string Username { get; set; } = string.Empty;
-        public byte[] PasswordHash { get; set; } = new byte[0];
+        public  byte[] PasswordHash { get; set; } = new byte[0];
         public byte[] PasswordSalt { get; set; } = new byte[0];
         [MaxLength(200)]
         [Column(TypeName ="varchar(200)")]
@@ -24,7 +25,7 @@ namespace rpg.Models
         public string LastName { get; set; }= string.Empty;
         [MaxLength(200)]
         [Column(TypeName ="varchar(200)")]
-        public string Email { get; set; }= string.Empty;
+        public  string Email { get; set; }= string.Empty;
         public List<Character>? Characters { get; set; }
     }
 }

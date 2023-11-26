@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace rpg.Models
 {
-    public class Skill
+    public class Skill:IModelIdentifier
     {
         [Key]
         public int Id { get; set; }
