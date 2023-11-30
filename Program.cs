@@ -45,8 +45,8 @@ IConfigurationRoot config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-// builder.Host.UseSerilog((context, configuration) =>
-//     configuration.ReadFrom.Configuration(context.Configuration));
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
 builder.Services.AddDbContextPool<DataContext>(options =>
@@ -69,8 +69,8 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-// builder.Services.AddIdentity<User,IdentityRole>()
-//             .AddEntityFrameworkStores<DataContext>();
+builder.Services.AddIdentityCore<User>()
+            .AddEntityFrameworkStores<DataContext>();
 builder.Services.AddAuthorization(options => 
 {
     options.AddPolicy(IdentityData.AdminUserPolicyName, p=> 

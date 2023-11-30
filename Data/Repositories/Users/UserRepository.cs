@@ -17,7 +17,7 @@ namespace rpg.Data.Repositories.Users
 
         private static Func<DataContext,string, Task<User?>> GetUserByUsername= 
             EF.CompileAsyncQuery((DataContext context,string username) => 
-                context.Users.FirstOrDefault(u => u.Username.ToLower().Equals(username.ToLower())));
+                context.Users.FirstOrDefault(u => u.UserName.ToLower().Equals(username.ToLower())));
 
 
         public async Task<User?> FindById(int id,bool fetchCharacters)
@@ -49,7 +49,7 @@ namespace rpg.Data.Repositories.Users
         public async Task<bool> UserExistsByUsername(string username)
         {
             if (await context.Users
-                .AnyAsync(u => u.Username.ToLower() == username.ToLower()))
+                .AnyAsync(u => u.UserName.ToLower() == username.ToLower()))
             {
                 return true;
             }

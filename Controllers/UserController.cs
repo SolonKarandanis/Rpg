@@ -42,7 +42,7 @@ namespace rpg.Controllers
         public async Task<ActionResult<GetUserDto>> FindUserById(int id){
             try{
                 var user = await userService.FindById(id,false);
-                log.LogDebug("User found @{User}",user.Username);
+                log.LogDebug("User found @{User}",user.UserName);
                 var result = userService.ConvertToDto(user);
                 return Ok(result);
             }

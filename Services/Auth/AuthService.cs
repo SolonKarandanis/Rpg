@@ -54,7 +54,7 @@ namespace rpg.Services.Auth
             CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             var user = new User(){
-                Username = userDto.Username,
+                UserName = userDto.Username,
                 FirstName = userDto.FirstName,
                 LastName = userDto.LastName,
                 Email = userDto.Email,
@@ -92,7 +92,7 @@ namespace rpg.Services.Auth
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.UserName)
             };
 
             var appSettingsToken = configuration.GetSection("JwtSettings:Key").Value;
